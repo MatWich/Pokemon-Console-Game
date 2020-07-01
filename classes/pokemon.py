@@ -1,0 +1,133 @@
+from classes.colors import bcolors, WATER, FIRE, ELECTRIC, GRASS, ROCK, NORMAL
+from classes.moves import Moves
+
+class Pokemon:
+    def __init__(self, name, type, hp, attack, df, Sattack,  Sdf,  speed, moves):
+        self.name = name
+        self.type = type
+        self.hp = hp
+        self.maxHP = hp
+        self.attack = attack
+        self.realAttack = attack
+        self.Sattack = Sattack
+        self.Sdf = Sdf
+        self.df = df
+        self.realDf = df
+        self.speed = speed
+        self.realSpeed = speed
+        self.moves = moves
+
+        self.actions = ["Attack", "Items", "Run"]
+
+    #Zwracanie wartosci statystyk
+
+    def getHp(self):
+        return self.hp
+
+    def getAttack(self):
+        return self.attack
+
+    def getSattack(self):
+        return self.Sattack
+
+    def getDf(self):
+        return self.df
+    
+    def getSdf(self):
+        return self.Sdf
+
+    def getSpeed(self):
+        return self.speed
+
+    # UI
+
+    def ChooseAction(self):
+        i = 1
+        print('What ' + self.name + ' should do?')
+        for action in self.actions:
+            print('    ' + str(i) + '.', action)
+            i += 1
+
+    def ChooseAttack(self):
+        i = 1
+        print('Which attack should be choosen?')
+        for move in self.moves:
+            print('    '+ str(i) + '.', move.name)
+            i += 1
+
+    # Przyjmowanie i zadawanie obrazen
+
+    
+
+    def takeDamageNormal(self, dmg):
+        reduce = int(self.df/3)
+        damage = int(dmg - reduce)
+        if reduce > damage:
+            self.hp -= 1
+        else:
+            self.hp -= damage
+        if self.hp < 0:
+            self.hp = 0
+        return self.hp
+
+    def takeDamageSpecial(self, dmg, dominant):
+        if dominant == True:
+            dmg *= 2.5
+        
+        reduce = int(self.Sdf/4)
+        damage = int(dmg - reduce)
+        
+        if reduce > damage:
+            self.hp -= 1
+        else:
+            finalDamage = damage - reduce
+            self.hp -= finalDamage
+        
+        if self.hp < 0:
+            self.hp = 0
+        return self.hp
+
+    #umiejetnosci wplywajace na statystyki np recovery, growl
+
+    def heal(self, dmg):
+        self.hp += dmg
+        if self.hp > self.maxHP:
+            self.hp = self.maxHP
+        return self.hp
+
+    def getAtkDebuff(self, debuff):
+        self.attack -= debuff
+        if self.attack <= 0:
+            self.attack = 1
+
+
+    def getDefDebuff(self, debuff):
+        self.df -= debuff
+        if self.df <= 0:
+            self.df = 0
+    
+    def getSattackDebuff(self, debuff):
+        self.Sattack -= debuff
+        if self.Sattack <= 10:
+            self.Sattack = 10
+    
+    def getSdfDebuff(self, debuff):
+        self.Sdf -= debuff
+        if self.Sdf < 0:
+            self.Sdf = 1
+
+    def getSpeedDebuff(self, debuff):
+        self.speed -= debuff
+        if self.speed <= 1:
+            self.speed = 1
+
+
+    
+
+    
+    
+        
+
+
+
+    
