@@ -132,6 +132,8 @@ class Pokemon:
             self.hp = self.maxHp
         return self.hp
 
+    # DEBUFFS
+
     def getAtkDebuff(self, debuff):
         self.attack -= debuff
         if self.attack <= 0:
@@ -155,8 +157,25 @@ class Pokemon:
 
     def getSpeedDebuff(self, debuff):
         self.speed -= debuff
-        if self.speed <= 1:
+        if self.speed <= 1: 
             self.speed = 1
+    
+    # BUFFS
+
+    def AtkBuff(self, buff):
+        self.attack += buff
+
+    def DfBuff(self, buff):
+        self.df += buff
+
+    def SAtkBuff(self, buff):
+        self.Sattack += buff
+
+    def SDfBuff(self, buff):
+        self.Sdf += buff
+
+    def SpeedBuff(self, buff):
+        self.speed += buff
 
 
     
