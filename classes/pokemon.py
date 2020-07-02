@@ -6,7 +6,7 @@ class Pokemon:
         self.name = name
         self.type = type
         self.hp = hp
-        self.maxHP = hp
+        self.maxHp = hp
         self.attack = attack
         self.realAttack = attack
         self.Sattack = Sattack
@@ -17,7 +17,7 @@ class Pokemon:
         self.realSpeed = speed
         self.moves = moves
 
-        self.actions = ["Attack", "Items", "Run"]
+        self.actions = ["Attack", "Items", "Run Away"]
 
     #Zwracanie wartosci statystyk
 
@@ -55,6 +55,43 @@ class Pokemon:
             print('    '+ str(i) + '.', move.name)
             i += 1
 
+    def chooseTarget(self, enemies):
+        i = 1
+        print("\n" + bcolors.OKRED + bcolors.BOLD + "    TAEGET:" + bcolors.ENDC)
+        for enemy in enemies:
+            if enemy.getHp() != 0:
+                print("        " + str(i) + ".", enemy.name)
+                i += 1
+        choice = int(input('    Choose target:')) - 1
+        return choice
+
+    def printHp(self):
+        hpBar = ""
+        hpBarTicks = (self.hp / self.maxHp) * 100 / 4
+        while hpBarTicks >= 0:
+            hpBar += "█"
+            hpBarTicks -= 1
+        
+        while len(hpBar) < 25:
+            hpBar += " "
+        
+        hpString = str(self.hp) + "/" + str(self.maxHp)
+        currentHP = ""
+        if len(hpString) < 9:
+            decreased = 9 -len(hpString)
+
+            while decreased > 0:
+                currentHP += " "
+                decreased -= 1
+
+            currentHP += hpString
+        else:
+            currentHP = hpString
+        #print("NAME               HP")
+        #print('                    --------------------------')
+        print(bcolors.BOLD + self.name  +
+            currentHP + '|' + bcolors.OKGREEN + hpBar + bcolors.ENDC + '|') 
+            
     # Przyjmowanie i zadawanie obrazen
 
     
@@ -91,8 +128,8 @@ class Pokemon:
 
     def heal(self, dmg):
         self.hp += dmg
-        if self.hp > self.maxHP:
-            self.hp = self.maxHP
+        if self.hp > self.maxHp:
+            self.hp = self.maxHp
         return self.hp
 
     def getAtkDebuff(self, debuff):

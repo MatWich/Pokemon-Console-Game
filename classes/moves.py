@@ -23,5 +23,7 @@ class Moves:
             return True
         elif self.type == ROCK and pokemon.type == ELECTRIC:
             return True
+        elif self.type == WATER and pokemon.type == ROCK:
+            return True
         else:
             return False
