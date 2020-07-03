@@ -180,6 +180,9 @@ class Pokemon:
     def generateDamage(self, multiplayer):
         return int(self.attack * multiplayer)
     
+    def generateNormalDamage(self, dmg):
+        return int(self.attack + dmg)
+
     def generateDamageSpecial(self, multiplayer):
         return int(self.Sattack * multiplayer)
 

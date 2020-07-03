@@ -1,5 +1,6 @@
 import sys
 import time
+import secrets
 from classes.colors import bcolors
 from classes.colors import WATER, FIRE, GRASS, ROCK, ELECTRIC, NORMAL
 from classes.items import Item
@@ -16,6 +17,19 @@ def delayPrint(s):
 def endMesssage(Player):
     delayPrint(Player.name + ' has won a fight!')
     exit(0)
+
+def GiveAway(list):
+    p1List = []
+    p2List = []
+    choice1 = secrets.choice(list)
+    choice2 = secrets.choice(list)
+    if choice1 != choice2:
+        p1List.append(choice1)
+        p2List.append(choice2)
+    else:
+        GiveAway(list)
+    return p1List, p2List
+    
 
 # ITEMS
 Potion = Item("Potion", "potion", 'This boi regenerate 20 Hp!', 20)
@@ -96,9 +110,11 @@ poke5 = Pokemon(Rick, ELECTRIC, 20, 1, 5, 17, 17, 4, [ThunderBolt, Flamethrower,
 Morty = bcolors.OKBLUE + 'Morty' + bcolors.ENDC
 poke6 = Pokemon(Morty, WATER, 19, 12, 10, 1, 5, 8, [VineWhip, LeafPunch, RazorLeaf, Recovery])
 
+PokemonList = [poke1, poke2, poke3, poke4, poke5, poke6]
+
 # Player's Pk
-YoursPk = [poke1, poke4, poke5]
-EnemysPk = [poke2, poke3, poke6]
+YoursPk, EnemysPk = GiveAway(PokemonList)
+ 
 
 # Player's n stuff
 strPlayer1 = bcolors.OKRED + 'Ash' + bcolors.ENDC
@@ -141,7 +157,7 @@ while run:
             if move.type == NORMAL:
                 
                 if move.purpose == 'damageDeal':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.getDamageValue())
                     damage = friendlyPk.generateDamage(dmg)
                     Player2.pokemonQuantity[enemy].takeDamageNormal(damage)
                     delayPrint(move.name + ' deals '+ str(damage - Player2.pokemonQuantity[enemy].getDf()) + ' damage to ' + Player2.pokemonQuantity[enemy].name + '\n')
@@ -201,13 +217,13 @@ while run:
                     dmg = abs(move.generateBuffDamage())
                     friendlyPk.SpeedBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' speed by ' + str(dmg) + '\n')
-
+            
+            # Ataki oparte na typie np ogniu
             else:
                 adventage = move.isDominant(Player2.pokemonQuantity[enemy])
                 dmg = move.generateDamage()
                 damage = friendlyPk.generateDamageSpecial(dmg)
                 Player2.pokemonQuantity[enemy].takeDamageSpecial(damage, adventage)
-                
                 
                 if adventage == True:
                     print(move.name + ' deals ' + str(int(damage * 2.5 - Player2.pokemonQuantity[enemy].getSdf())) + '\n')
@@ -284,8 +300,8 @@ while run:
             if move.type == NORMAL:
 
                 if move.purpose == 'damageDeal':
-                    dmg = abs(move.generateDamage())
-                    damage = foe.generateDamage(dmg)
+                    dmg = abs(move.getDamageValue())
+                    damage = foe.generateNormalDamage(dmg)
                     Player1.pokemonQuantity[friendo].takeDamageNormal(damage)
                     delayPrint(move.name + ' deals '+ str(damage - Player1.pokemonQuantity[friendo].getDf()) + ' damage to ' + Player1.pokemonQuantity[friendo].name + '\n')
                 

@@ -11,6 +11,9 @@ class Moves:
         self.purpose = purpose
 
 
+    def getDamageValue(self):
+        return self.dmg
+
     def generateDamage(self):
         
         if self.dmg < 10:
