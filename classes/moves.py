@@ -14,7 +14,7 @@ class Moves:
     def getDamageValue(self):
         return self.dmg
 
-    def generateDamage(self):
+    def generateDamageMult(self):
         
         if self.dmg < 10:
             return random.randrange(1, 5)

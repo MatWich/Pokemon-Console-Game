@@ -33,7 +33,7 @@ class Pokemon:
     def getDf(self):
         return self.df
     
-    def getSdf(self):
+    def getSDf(self):
         return self.Sdf
 
     def getSpeed(self):
@@ -163,13 +163,13 @@ class Pokemon:
     def AtkBuff(self, buff):
         self.attack += buff
 
-    def DfBuff(self, buff):
+    def DefBuff(self, buff):
         self.df += buff
 
     def SAtkBuff(self, buff):
         self.Sattack += buff
 
-    def SDfBuff(self, buff):
+    def SDefBuff(self, buff):
         self.Sdf += buff
 
     def SpeedBuff(self, buff):
@@ -185,6 +185,15 @@ class Pokemon:
 
     def generateDamageSpecial(self, multiplayer):
         return int(self.Sattack * multiplayer)
+
+    # STATUS
+
+    def Fainted(self):
+        if self.getHp() == 0:
+            print(self.name.replace(" ", "") + ' has fainted')
+            return True
+        else:
+            return False
 
 
     
