@@ -47,6 +47,8 @@ class Pokemon:
         for action in self.actions:
             print('    ' + str(i) + '.', action)
             i += 1
+        actionChoice = int(input('Choose action: '))
+        return actionChoice
         
 
     def ChooseAttack(self):
@@ -55,6 +57,8 @@ class Pokemon:
         for move in self.moves:
             print('            '+ str(i) + '.', move.name)
             i += 1
+        atkChoice = int(input('Choose atk: ')) - 1
+        return atkChoice
 
     def chooseTarget(self, enemies):
         i = 1

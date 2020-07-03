@@ -19,6 +19,8 @@ class Player:
         for item in self.items:
             print("    " + str(i) + ".", item["item"].name, " : ", item["item"].description + " (x" + str(item["quantity"]) + ")")
             i += 1
+        choice = int(input('Choose item: ')) - 1
+        return choice
 
     def MoneyLoss(self, Player):
         moneyLost = self.money // 3
@@ -134,4 +136,44 @@ class Player:
         return self, Player
         
     def ItemDamageCalculation(self, Player):
-        pass
+        self.Lose(Player)
+
+        itemChoice = self.chooseItem()
+
+        item = self.items[itemChoice]["item"]
+
+        if self.items[itemChoice]["quantity"] == 0:
+            print(bcolors.BLINK + 'None of that left :(' + bcolors.ENDC + '\n')
+            self.ItemDamageCalculation(Player)        # zamiast continue nwm czy dziala XD
+        else:
+            self.items[itemChoice]["quantity"] -= 1
+        
+        if item.type == "potion":
+            # used to list pk
+            i = 1
+            for pk in self.pokemonQuantity:
+                print(str(i) + '.')
+                pk.printHp()
+                i += 1
+            pkChoice = int(input('Choose PoKemon to heal!')) - 1
+            self.pokemonQuantity[pkChoice].heal(item.prop)
+            print(bcolors.OKGREEN + item.name + ' heals for ' + str(item.prop) + ' Hp ' + self.pokemonQuantity[pkChoice].name + bcolors.ENDC)
+        
+        elif item.type == "weapon":
+            i = 1
+            for pk in Player.pokemonQuantity:
+                print(str(i) + '. ')
+                pk.printHp()
+                i += 1
+            pkChoice = int(input('Choose Pokemon to deal damage to it!')) - 1
+            Player.pokemonQuantity[pkChoice].takeDamageNormal(item.prop)
+            print(bcolors.OKRED + item.name + ' deals ' + str(item.prop) + ' damage to ' + Player.pokemonQuantity[pkChoice].name + bcolors.ENDC)
+        
+        # Remove fainted Pokemon
+        for pk in Player.pokemonQuantity:
+            if pk.Fainted() == True:
+                del Player.pokemonQuantity[pkChoice]
+        
+        return self, Player
+
+

@@ -33,9 +33,6 @@ def GiveAway(list):
             del list[index]
             whoGets = 0
     return p1List, p2List
- 
-
-
 
 # ITEMS
 Potion = Item("Potion", "potion", 'This boi regenerate 20 Hp!', 20)
@@ -96,7 +93,7 @@ DefenceCurl = Moves(strDefenceCurl, 5, NORMAL, 'DEF_Buff')
 Scratch = Moves("Scratch", 15, NORMAL, 'damageDeal')
 Tackle = Moves("Tackle", 15, NORMAL, 'damageDeal')
 Recovery = Moves("Recovery", 80, NORMAL, 'HealUp')
-Growl = Moves("Growl", 2, NORMAL, 'ATK_debuff')
+Growl = Moves("Growl", 2, NORMAL, 'ATK_Debuff')
 # Pokemon
 bigHungus = bcolors.OKGREEN + 'Big Hungus' + bcolors.ENDC
 poke2 = Pokemon(bigHungus, GRASS, 22, 8, 10, 2, 10, 3, [Scratch, Growl, Recovery, RazorLeaf])
@@ -135,11 +132,11 @@ delayPrint(Player2.name + ' wants to fight!')
 run = True
 while run:
 
-    # PLAYER1'S TURN
+    ''' PLAYER1'S TURN '''
     # Checking winning conditions
     Player1.Lose(Player2)
-    # wypisanie statystyk LP
     
+    # wypisanie statystyk LP
     print('\n' + bcolors.BOLD + Player1.name +" Pk:" + bcolors.ENDC)
     for poke in Player1.pokemonQuantity:
         poke.printHp()
@@ -147,124 +144,71 @@ while run:
 
     for Pk in Player1.pokemonQuantity:
         
+        # Checking winning conditions
+        Player1.Lose(Player2)
+
         # wybranie akcji
-        Pk.ChooseAction()
-        choice = int(input('Choose action: '))
+        choice = Pk.ChooseAction()
         
         # wypisanie atakow
         if choice == 1:
             # Choosing atk
-            Pk.ChooseAttack()
-            atkChoice = int(input('Choose atk: ')) - 1
+            atkChoice = Pk.ChooseAttack()
 
             # Choosing enemy
             enemy = Pk.chooseTarget(Player2.pokemonQuantity)
             notEnemy = Player1.pokemonQuantity.index(Pk)
             PLayer1, Player2 = Player1.PokemonDamageCalculation(Player2, notEnemy, enemy, atkChoice)
-
-            
+    
         # ITEMS
         elif choice == 2:
-            #choosing items
-            Player1.chooseItem()
-            itemChoice = int(input('Choose item: \n-1 to back to actions\n')) - 1
-            item = Player1.items[itemChoice]["item"]
-
-            if Player1.items[itemChoice]["quantity"] == 0:
-                print(bcolors.BLINK + "\n" + "None of that left :(" + bcolors.ENDC)
-                continue
-            Player1.items[itemChoice]["quantity"] -= 1
-
-            if item.type == "potion":
-                for pk in Player1.pokemonQuantity:
-                    pk.printHp()
-                pkChoice = int(input('Wchich should be healed?: ')) - 1
-                Player1.pokemonQuantity[pkChoice].heal(item.prop)
-                print(bcolors.OKGREEN + '\n' + item.name + " heals for", str(item.prop), " HP " + Player1.pokemonQuantity[pkChoice].name + bcolors.ENDC)
-            
-            elif item.type == "weapon":
-                for pk in Player2.pokemonQuantity:
-                    pk.printHp()
-                pkChoice = int(input('Which of them should receive a damage?: ')) - 1
-                Player2.pokemonQuantity[pkChoice].takeDamageNormal(item.prop)
-                print(bcolors.OKRED + '\n' + item.name + "  deals ", str(item.prop), " damage" + Player2.pokemonQuantity[pkChoice].name + bcolors.ENDC)
-
-            # Jesli padl to usuwany jest 
-            if Player2.pokemonQuantity[pkChoice].getHp() == 0:
-                print(Player2.pokemonQuantity[pkChoice].name.replace(" ", "") + ' has died.')
-                del Player2.pokemonQuantity[pkChoice]    
+            Player1.ItemDamageCalculation(Player2)    
         
         # RUN BERRY RUN
         elif choice == 3:
-            print(bcolors.BOLD + 'YOU ESCAPED' + bcolors.ENDC)
+            print(bcolors.BOLD + Player1.name + bcolors.BOLD +' escaped' + bcolors.ENDC)
             exit(0)
         
+        # NOPE!!!
         else:
             print('There is no option ', choice)
             break
+    
+    ''' PLAYER2's TURN ''' 
+    # Checking winning conditions
+    Player2.Lose(Player1)
 
-    # ENEMY's TURN
-    #Checking winning conditions
-    Player2.Lose(Player1)    
     # wypisanie stanu LP    
     print('\n' + bcolors.BOLD + Player2.name +" Pk:" + bcolors.ENDC)
-    
     for Pk in Player2.pokemonQuantity:
         Pk.printHp()
 
     for Pk in Player2.pokemonQuantity:
         
+        # Checking winning conditions
+        Player2.Lose(Player1)
 
         #wybor akcji
-        Pk.ChooseAction()
-        choice = int(input('Choose action: '))
+        choice = Pk.ChooseAction()
         
         # wypisanie atakow
         if choice == 1:
-            Pk.ChooseAttack()
-            atkChoice = int(input('        Choose attack: ')) - 1
+            atkChoice = Pk.ChooseAttack()
             
             enemy = Pk.chooseTarget(Player1.pokemonQuantity)
             notEnemy = Player2.pokemonQuantity.index(Pk)
-            Player2, PLayer1 = Player2.PokemonDamageCalculation(Player1, notEnemy, enemy,atkChoice)
-
-
+            Player2, PLayer1 = Player2.PokemonDamageCalculation(Player1, notEnemy, enemy, atkChoice)
 
         # ITEMS
         elif choice == 2:
-            #choosing items
-            Player2.chooseItem()
-            itemChoice = int(input('Choose item: \n-1 to back to actions\n')) - 1
-            item = Player2.items[itemChoice]["item"]
-
-            if Player2.items[itemChoice]["quantity"] == 0:
-                print(bcolors.BLINK + "\n" + "None of that left :(" + bcolors.ENDC)
-                continue
-            Player2.items[itemChoice]["quantity"] -= 1
-
-            if item.type == "potion":
-                for pk in Player2.pokemonQuantity:
-                    pk.printHp()
-                pkChoice = int(input('Wchich should be healed?: ')) - 1
-                Player2.pokemonQuantity[pkChoice].heal(item.prop)
-                print(bcolors.OKGREEN + '\n' + item.name + " heals for", str(item.prop), " HP " + Player2.pokemonQuantity[pkChoice].name + bcolors.ENDC)
-            
-            elif item.type == "weapon":
-                for pk in Player1.pokemonQuantity:
-                    pk.printHp()
-                pkChoice = int(input('Which of them should receive a damage?: ')) - 1
-                Player1.pokemonQuantity[pkChoice].takeDamageNormal(item.prop)
-                print(bcolors.OKRED + '\n' + item.name + "  deals ", str(item.prop), " damage" + Player1.pokemonQuantity[pkChoice].name + bcolors.ENDC)
-
-            # Jesli padl to usuwany jest 
-            if Player1.pokemonQuantity[pkChoice].getHp() == 0:
-                print(Player2.pokemonQuantity[pkChoice].name.replace(" ", "") + ' has died.')
-                del Player1.pokemonQuantity[pkChoice]
+            Player2.ItemDamageCalculation(Player1)
         
+        # WHY WOULD YOU LIKE TO DO THAT?
         elif choice == 3:
-            print(bcolors.BOLD + 'YOU ESCAPED' + bcolors.ENDC)
+            print(bcolors.BOLD + Player2.name + bcolors.BOLD + ' ESCAPED' + bcolors.ENDC)
             exit(0)
         
+        # THERE IS NO ESTER EGG HERE
         else:
             print('There is no option ', choice)
             continue
