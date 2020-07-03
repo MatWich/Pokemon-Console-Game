@@ -5,13 +5,31 @@ class Moves:
     def __init__(self, name, dmg, type, purpose):
         self.name =  name
         self.Ldmg = dmg - 10
+        self.dmg = dmg
         self.Hdmg = dmg + 10
         self.type = type
         self.purpose = purpose
 
 
     def generateDamage(self):
-        return random.randrange(self.Ldmg, self.Hdmg)
+        
+        if self.dmg < 10:
+            return random.randrange(1, 5)
+
+        elif self.dmg == 35:
+            return 1
+
+        elif self.dmg == 50:
+            return 1.25
+
+        elif self.dmg == 80:
+            return 1.5
+
+        elif self.dmg == 100:
+            return 2
+
+    def generateBuffDamage(self):
+        return random.randrange(self.dmg - 2, self.dmg + 2)
 
     #czy ma przewage
     def isDominant(self, pokemon):

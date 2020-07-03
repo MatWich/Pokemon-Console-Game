@@ -41,7 +41,7 @@ Player2Set = [
 strEmber = bcolors.OKRED + "Ember" + bcolors.ENDC
 Ember = Moves(strEmber, 50, FIRE, 'damageDeal')
 strFlamethrower = bcolors.OKRED + "FlameThrower" + bcolors.ENDC
-Flamethrower = Moves(strFlamethrower, 80, FIRE, 'damageDeal')
+Flamethrower = Moves(strFlamethrower, 100, FIRE, 'damageDeal')
 strFirePunch = bcolors.OKRED + "Fire Punch" + bcolors.ENDC
 FirePunch = Moves(strFirePunch, 35, FIRE, 'damageDeal')
 #WATER
@@ -74,26 +74,27 @@ strDefenceCurl = bcolors.OKGREY + "Defence Curl" + bcolors.ENDC
 DefenceCurl = Moves(strDefenceCurl, 5, NORMAL, 'DEF_Buff')
 #NORMAL
 Scratch = Moves("Scratch", 15, NORMAL, 'damageDeal')
+Tackle = Moves("Tackle", 15, NORMAL, 'damageDeal')
 Recovery = Moves("Recovery", 80, NORMAL, 'HealUp')
 Growl = Moves("Growl", 2, NORMAL, 'ATK_debuff')
 # Pokemon
 bigHungus = bcolors.OKGREEN + 'Big Hungus' + bcolors.ENDC
-poke2 = Pokemon(bigHungus, GRASS, 200, 23, 2, 2, 100, 1, [Flamethrower, waterGun, Recovery, Growl])
+poke2 = Pokemon(bigHungus, GRASS, 22, 8, 10, 2, 10, 3, [Scratch, Growl, Recovery, RazorLeaf])
 
 Shaggy = bcolors.OKGREY + 'Shaggy' + bcolors.ENDC
-poke1 = Pokemon(Shaggy, FIRE, 100, 10, 12, 2, 1, 3, [Scratch, Flamethrower, Recovery, HydroPomp])
+poke1 = Pokemon(Shaggy, FIRE, 20, 12, 9, 14, 1, 6, [LeafPunch, WaterPunch, ThunderPunch , FirePunch])
 
 SpongeBob = bcolors.OKYELLOW + 'SpongeBob' + bcolors.ENDC
-poke3 = Pokemon(SpongeBob, ELECTRIC, 150, 12, 2, 5, 6, 1, [Scratch, Growl, Thunder])
+poke3 = Pokemon(SpongeBob, ELECTRIC, 20, 5, 13, 15, 1, 4, [Scratch, Growl, waterGun, HydroPomp])
 
 Shrekku = bcolors.OKGREEN + 'Shrekku' + bcolors.ENDC
-poke4 = Pokemon(Shrekku, GRASS, 1200, 15, 1, 1, 1, 1, [Recovery, DefenceCurl, Thunder, LeafPunch] )
+poke4 = Pokemon(Shrekku, GRASS, 23, 1, 12, 15, 3, 5, [Recovery, DefenceCurl, HydroPomp, LeafPunch] )
 
 Rick = bcolors.OKYELLOW + 'Rick' + bcolors.ENDC
-poke5 = Pokemon(Rick, ELECTRIC, 300, 50, 1, 30, 1, 4, [ThunderBolt, Flamethrower, ThunderPunch, Recovery])
+poke5 = Pokemon(Rick, ELECTRIC, 20, 1, 5, 17, 17, 4, [ThunderBolt, Flamethrower, ThunderPunch, Recovery])
 
 Morty = bcolors.OKBLUE + 'Morty' + bcolors.ENDC
-poke6 = Pokemon(Morty, WATER, 50, 100, 1, 10, 1, 5, [VineWhip, LeafPunch, RazorLeaf, Recovery])
+poke6 = Pokemon(Morty, WATER, 19, 12, 10, 1, 5, 8, [VineWhip, LeafPunch, RazorLeaf, Recovery])
 
 # Player's Pk
 YoursPk = [poke1, poke4, poke5]
@@ -141,74 +142,79 @@ while run:
                 
                 if move.purpose == 'damageDeal':
                     dmg = abs(move.generateDamage())
-                    Player2.pokemonQuantity[enemy].takeDamageNormal(dmg)
-                    delayPrint(move.name + ' deals '+ str(dmg) + ' damage to ' + Player2.pokemonQuantity[enemy].name + '\n')
+                    damage = friendlyPk.generateDamage(dmg)
+                    Player2.pokemonQuantity[enemy].takeDamageNormal(damage)
+                    delayPrint(move.name + ' deals '+ str(damage - Player2.pokemonQuantity[enemy].getDf()) + ' damage to ' + Player2.pokemonQuantity[enemy].name + '\n')
                 
                 elif move.purpose == 'ATK_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player2.pokemonQuantity[enemy].getAtkDebuff(dmg)
                     delayPrint(move.name + ' decreased attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'DEF_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player2.pokemonQuantity[enemy].getDefDebuff(dmg)
                     delayPrint(move.name + ' decreased defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SPD_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player2.pokemonQuantity[enemy].getSpeedDebuff(dmg)
                     delayPrint(move.name + ' decreased speeed of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SATK_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player2.pokemonQuantity[enemy].getSattackDebuff(dmg)
                     delayPrint(move.name + ' decreased special attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SDEF_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player2.pokemonQuantity[enemy].getSdfDebuff(dmg)
                     delayPrint(move.name + ' decreased special defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'HealUp':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.heal(dmg)
                     delayPrint(move.name + ' heals ' + friendlyPk.name + ' by ' + str(dmg) + '\n')
                 
                 # Buffs
                 elif move.purpose == 'ATK_Buff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.AtkBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' attack by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'DEF_Buff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.DfBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' defence by ' + str(dmg) + '\n')
 
                 elif move.purpose == 'SATK_Buff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.SAtkBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' special attack by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SDEF_Buff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.SDfBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' special defence by ' + str(dmg) + '\n')
 
                 elif move.purpose == 'SPD_Buff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     friendlyPk.SpeedBuff(dmg)
                     delayPrint(move.name + ' grows ' + friendlyPk.name + ' speed by ' + str(dmg) + '\n')
 
             else:
                 adventage = move.isDominant(Player2.pokemonQuantity[enemy])
                 dmg = move.generateDamage()
-                Player2.pokemonQuantity[enemy].takeDamageSpecial(dmg, adventage)
+                damage = friendlyPk.generateDamageSpecial(dmg)
+                Player2.pokemonQuantity[enemy].takeDamageSpecial(damage, adventage)
+                
                 
                 if adventage == True:
-                    delayPrint(move.name + ' was super effective !' + '\n')
+                    print(move.name + ' deals ' + str(int(damage * 2.5 - Player2.pokemonQuantity[enemy].getSdf())) + '\n')
+                    delayPrint('It was super effective !' + '\n')
                 else:
-                    delayPrint(move.name + ' was not very effective against '+ Player2.pokemonQuantity[enemy].name + '\n')
+                    print(move.name + ' deals ' + str(int(damage - Player2.pokemonQuantity[enemy].getSdf())) + '\n')
+                    delayPrint('It was not very effective against '+ Player2.pokemonQuantity[enemy].name + '\n')
             
             # Jesli padl to usuwany jest 
             if Player2.pokemonQuantity[enemy].getHp() == 0:
@@ -279,48 +285,77 @@ while run:
 
                 if move.purpose == 'damageDeal':
                     dmg = abs(move.generateDamage())
-                    Player1.pokemonQuantity[friendo].takeDamageNormal(dmg)
-                    delayPrint(move.name + ' deals '+ str(dmg) + ' damage to ' + Player1.pokemonQuantity[friendo].name + '\n')
+                    damage = foe.generateDamage(dmg)
+                    Player1.pokemonQuantity[friendo].takeDamageNormal(damage)
+                    delayPrint(move.name + ' deals '+ str(damage - Player1.pokemonQuantity[friendo].getDf()) + ' damage to ' + Player1.pokemonQuantity[friendo].name + '\n')
                 
                 elif move.purpose == 'ATK_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player1.pokemonQuantity[friendo].getAtkDebuff(dmg)
                     delayPrint(move.name + ' decreased attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'DEF_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player1.pokemonQuantity[friendo].getDefDebuff(dmg)
                     delayPrint(move.name + ' decreased defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SPD_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player1.pokemonQuantity[friendo].getSpeedDebuff(dmg)
                     delayPrint(move.name + ' decreased speeed of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SATK_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player1.pokemonQuantity[friendo].getSattackDebuff(dmg)
                     delayPrint(move.name + ' decreased special attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'SDEF_debuff':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     Player1.pokemonQuantity[friendo].getSdfDebuff(dmg)
                     delayPrint(move.name + ' decreased special defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
                 elif move.purpose == 'HealUp':
-                    dmg = abs(move.generateDamage())
+                    dmg = abs(move.generateBuffDamage())
                     foe.heal(dmg)
                     delayPrint(move.name + ' heals ' + foe.name + ' by ' + str(dmg) + '\n')
+
+                # Buffs
+                elif move.purpose == 'ATK_Buff':
+                    dmg = abs(move.generateBuffDamage())
+                    foe.AtkBuff(dmg)
+                    delayPrint(move.name + ' grows ' + foe.name + ' attack by ' + str(dmg) + '\n')
+                
+                elif move.purpose == 'DEF_Buff':
+                    dmg = abs(move.generateBuffDamage())
+                    foe.DfBuff(dmg)
+                    delayPrint(move.name + ' grows ' + foe.name + ' defence by ' + str(dmg) + '\n')
+
+                elif move.purpose == 'SATK_Buff':
+                    dmg = abs(move.generateBuffDamage())
+                    foe.SAtkBuff(dmg)
+                    delayPrint(move.name + ' grows ' + foe.name + ' special attack by ' + str(dmg) + '\n')
+                
+                elif move.purpose == 'SDEF_Buff':
+                    dmg = abs(move.generateBuffDamage())
+                    foe.SDfBuff(dmg)
+                    delayPrint(move.name + ' grows ' + foe.name + ' special defence by ' + str(dmg) + '\n')
+
+                elif move.purpose == 'SPD_Buff':
+                    dmg = abs(move.generateBuffDamage())
+                    foe.SpeedBuff(dmg)
+                    delayPrint(move.name + ' grows ' + foe.name + ' speed by ' + str(dmg) + '\n')
             
             else:
                 adventage = move.isDominant(foe)
                 dmg = move.generateDamage()
-                Player1.pokemonQuantity[friendo].takeDamageSpecial(dmg, adventage)
+                damage = foe.generateDamageSpecial(dmg)
+                Player1.pokemonQuantity[friendo].takeDamageSpecial(damage, adventage)
                 
                 if adventage == True:
-                    delayPrint(move.name + ' was super effective !' + '\n')
+                    delayPrint(move.name + ' deals ' + str(int(damage *2.5 - Player1.pokemonQuantity[friendo].getSdf())))
+                    delayPrint('It was super effective !' + '\n')
                 else:
-                    delayPrint(move.name + ' was not very effective against '+ Player1.pokemonQuantity[friendo].name + '\n')
+                    delayPrint('It was not very effective against '+ Player1.pokemonQuantity[friendo].name + '\n')
                     
             if Player1.pokemonQuantity[friendo].getHp() == 0:
                 print(Player1.pokemonQuantity[friendo].name.replace(" ", "") + ' has died.')

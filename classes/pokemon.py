@@ -96,7 +96,7 @@ class Pokemon:
     # Przyjmowanie obrazen
 
     def takeDamageNormal(self, dmg):
-        reduce = int(self.df/3)
+        reduce = int(self.df)
         damage = int(dmg - reduce)
         if reduce > damage:
             self.hp -= 1
@@ -110,14 +110,13 @@ class Pokemon:
         if dominant == True:
             dmg *= 2.5
         
-        reduce = int(self.Sdf/4)
-        damage = int(dmg - reduce)
+        reduce = int(self.Sdf)
         
-        if reduce > damage:
+        if reduce > dmg:
             self.hp -= 1
         else:
-            finalDamage = damage - reduce
-            self.hp -= finalDamage
+            damage = int(dmg - reduce)
+            self.hp -= damage
         
         if self.hp < 0:
             self.hp = 0
@@ -175,6 +174,14 @@ class Pokemon:
 
     def SpeedBuff(self, buff):
         self.speed += buff
+    
+    # Zadawanie obrazen
+
+    def generateDamage(self, multiplayer):
+        return int(self.attack * multiplayer)
+    
+    def generateDamageSpecial(self, multiplayer):
+        return int(self.Sattack * multiplayer)
 
 
     
