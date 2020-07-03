@@ -47,17 +47,18 @@ class Pokemon:
         for action in self.actions:
             print('    ' + str(i) + '.', action)
             i += 1
+        
 
     def ChooseAttack(self):
         i = 1
-        print('Which attack should be choosen?')
+        print('        Which attack should be choosen?')
         for move in self.moves:
-            print('    '+ str(i) + '.', move.name)
+            print('            '+ str(i) + '.', move.name)
             i += 1
 
     def chooseTarget(self, enemies):
         i = 1
-        print("\n" + bcolors.OKRED + bcolors.BOLD + "    TAEGET:" + bcolors.ENDC)
+        print(bcolors.OKRED + bcolors.BOLD + "    TAEGET:" + bcolors.ENDC)
         for enemy in enemies:
             if enemy.getHp() != 0:
                 print("        " + str(i) + ".", enemy.name)
@@ -92,9 +93,7 @@ class Pokemon:
         print(bcolors.BOLD + self.name  +
             currentHP + '|' + bcolors.OKGREEN + hpBar + bcolors.ENDC + '|') 
             
-    # Przyjmowanie i zadawanie obrazen
-
-    
+    # Przyjmowanie obrazen
 
     def takeDamageNormal(self, dmg):
         reduce = int(self.df/3)

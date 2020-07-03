@@ -95,13 +95,18 @@ poke5 = Pokemon(Rick, ELECTRIC, 300, 50, 1, 30, 1, 4, [ThunderBolt, Flamethrower
 Morty = bcolors.OKBLUE + 'Morty' + bcolors.ENDC
 poke6 = Pokemon(Morty, WATER, 50, 100, 1, 10, 1, 5, [VineWhip, LeafPunch, RazorLeaf, Recovery])
 
-# Players layouts
+# Player's Pk
 YoursPk = [poke1, poke4, poke5]
 EnemysPk = [poke2, poke3, poke6]
 
 # Player's n stuff
-Player1 = Player('Ash', YoursPk, Player1Set)
-Player2 = Player('Gary', EnemysPk, Player2Set)
+strPlayer1 = bcolors.OKRED + 'Ash' + bcolors.ENDC
+Player1 = Player(strPlayer1, YoursPk, Player1Set)
+
+strPlayer2 = bcolors.OKBLUE + 'Gary' + bcolors.ENDC
+Player2 = Player(strPlayer2, EnemysPk, Player2Set)
+
+delayPrint(Player2.name + ' wants to fight!')
 
 #MainLoop
 run = True
@@ -121,88 +126,89 @@ while run:
 
         # wybranie akcji
         friendlyPk.ChooseAction()
-        choice = int(input())
+        choice = int(input('Choose action: '))
         
         # wypisanie atakow
         if choice == 1:
 
             enemy = friendlyPk.chooseTarget(Player2.pokemonQuantity)
             friendlyPk.ChooseAttack()
-            atkChoice = int(input()) - 1
+            atkChoice = int(input('        Choose attack:')) - 1
 
+            move = friendlyPk.moves[atkChoice]
 
-            if friendlyPk.moves[atkChoice].type == NORMAL:
+            if move.type == NORMAL:
                 
-                if friendlyPk.moves[atkChoice].purpose == 'damageDeal':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                if move.purpose == 'damageDeal':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].takeDamageNormal(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' deals '+ str(dmg) + ' damage to ' + Player2.pokemonQuantity[enemy].name + '\n')
+                    delayPrint(move.name + ' deals '+ str(dmg) + ' damage to ' + Player2.pokemonQuantity[enemy].name + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'ATK_debuff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'ATK_debuff':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].getAtkDebuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' decreased attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'DEF_debuff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'DEF_debuff':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].getDefDebuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' decreased defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'SPD_debuff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SPD_debuff':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].getSpeedDebuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' decreased speeed of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased speeed of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'SATK_debuff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SATK_debuff':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].getSattackDebuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' decreased special attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased special attack of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'SDEF_debuff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SDEF_debuff':
+                    dmg = abs(move.generateDamage())
                     Player2.pokemonQuantity[enemy].getSdfDebuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' decreased special defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased special defence of ' + Player2.pokemonQuantity[enemy].name + ' by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'HealUp':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'HealUp':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.heal(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' heals ' + friendlyPk.name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' heals ' + friendlyPk.name + ' by ' + str(dmg) + '\n')
                 
                 # Buffs
-                elif friendlyPk.moves[atkChoice].purpose == 'ATK_Buff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'ATK_Buff':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.AtkBuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' grows ' + friendlyPk.name + ' attack by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' grows ' + friendlyPk.name + ' attack by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'DEF_Buff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'DEF_Buff':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.DfBuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' grows ' + friendlyPk.name + ' defence by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' grows ' + friendlyPk.name + ' defence by ' + str(dmg) + '\n')
 
-                elif friendlyPk.moves[atkChoice].purpose == 'SATK_Buff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SATK_Buff':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.SAtkBuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' grows ' + friendlyPk.name + ' special attack by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' grows ' + friendlyPk.name + ' special attack by ' + str(dmg) + '\n')
                 
-                elif friendlyPk.moves[atkChoice].purpose == 'SDEF_Buff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SDEF_Buff':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.SDfBuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' grows ' + friendlyPk.name + ' special defence by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' grows ' + friendlyPk.name + ' special defence by ' + str(dmg) + '\n')
 
-                elif friendlyPk.moves[atkChoice].purpose == 'SPD_Buff':
-                    dmg = abs(friendlyPk.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SPD_Buff':
+                    dmg = abs(move.generateDamage())
                     friendlyPk.SpeedBuff(dmg)
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' grows ' + friendlyPk.name + ' speed by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' grows ' + friendlyPk.name + ' speed by ' + str(dmg) + '\n')
 
             else:
-                adventage = friendlyPk.moves[atkChoice].isDominant(Player2.pokemonQuantity[enemy])
-                dmg = friendlyPk.moves[atkChoice].generateDamage()
+                adventage = move.isDominant(Player2.pokemonQuantity[enemy])
+                dmg = move.generateDamage()
                 Player2.pokemonQuantity[enemy].takeDamageSpecial(dmg, adventage)
                 
                 if adventage == True:
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' was super effective !' + '\n')
+                    delayPrint(move.name + ' was super effective !' + '\n')
                 else:
-                    delayPrint(friendlyPk.moves[atkChoice].name + ' was not very effective against '+ Player2.pokemonQuantity[enemy].name + '\n')
+                    delayPrint(move.name + ' was not very effective against '+ Player2.pokemonQuantity[enemy].name + '\n')
             
             # Jesli padl to usuwany jest 
             if Player2.pokemonQuantity[enemy].getHp() == 0:
@@ -259,60 +265,62 @@ while run:
             endMesssage(Player2)
         #wybor akcji
         foe.ChooseAction()
-        choice = int(input())
+        choice = int(input('Choose action: '))
         
         # wypisanie atakow
         if choice == 1:
             friendo = foe.chooseTarget(Player1.pokemonQuantity)
             foe.ChooseAttack()
-            atkChoice = int(input()) - 1
+            atkChoice = int(input('        Choose attack: ')) - 1
             
-            if foe.moves[atkChoice].type == NORMAL:
-                
-                if foe.moves[atkChoice].purpose == 'damageDeal':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+            move = foe.moves[atkChoice]
+
+            if move.type == NORMAL:
+
+                if move.purpose == 'damageDeal':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].takeDamageNormal(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' deals '+ str(dmg) + ' damage to ' + Player1.pokemonQuantity[friendo].name + '\n')
+                    delayPrint(move.name + ' deals '+ str(dmg) + ' damage to ' + Player1.pokemonQuantity[friendo].name + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'ATK_debuff':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'ATK_debuff':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].getAtkDebuff(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' decreased attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'DEF_debuff':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'DEF_debuff':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].getDefDebuff(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' decreased defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'SPD_debuff':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SPD_debuff':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].getSpeedDebuff(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' decreased speeed of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased speeed of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'SATK_debuff':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SATK_debuff':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].getSattackDebuff(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' decreased special attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased special attack of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'SDEF_debuff':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'SDEF_debuff':
+                    dmg = abs(move.generateDamage())
                     Player1.pokemonQuantity[friendo].getSdfDebuff(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' decreased special defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' decreased special defence of ' + Player1.pokemonQuantity[friendo].name + ' by ' + str(dmg) + '\n')
                 
-                elif foe.moves[atkChoice].purpose == 'HealUp':
-                    dmg = abs(foe.moves[atkChoice].generateDamage())
+                elif move.purpose == 'HealUp':
+                    dmg = abs(move.generateDamage())
                     foe.heal(dmg)
-                    delayPrint(foe.moves[atkChoice].name + ' heals ' + foe.name + ' by ' + str(dmg) + '\n')
+                    delayPrint(move.name + ' heals ' + foe.name + ' by ' + str(dmg) + '\n')
             
             else:
-                adventage = foe.moves[atkChoice].isDominant(foe)
-                dmg = foe.moves[atkChoice].generateDamage()
+                adventage = move.isDominant(foe)
+                dmg = move.generateDamage()
                 Player1.pokemonQuantity[friendo].takeDamageSpecial(dmg, adventage)
                 
                 if adventage == True:
-                    delayPrint(foe.moves[atkChoice].name + ' was super effective !' + '\n')
+                    delayPrint(move.name + ' was super effective !' + '\n')
                 else:
-                    delayPrint(foe.moves[atkChoice].name + ' was not very effective against '+ Player1.pokemonQuantity[friendo].name + '\n')
+                    delayPrint(move.name + ' was not very effective against '+ Player1.pokemonQuantity[friendo].name + '\n')
                     
             if Player1.pokemonQuantity[friendo].getHp() == 0:
                 print(Player1.pokemonQuantity[friendo].name.replace(" ", "") + ' has died.')

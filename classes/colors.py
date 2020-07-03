@@ -10,7 +10,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
     BLINK = '\33[5m'
 
-
+# do typow atakow i Pk
 WATER = bcolors.OKBLUE + "WATER" + bcolors.ENDC
 FIRE = bcolors.OKRED + "FIRE" + bcolors.ENDC
 ELECTRIC = bcolors.OKYELLOW + "ELECTRIC" + bcolors.ENDC
