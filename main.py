@@ -19,19 +19,16 @@ def delayPrint(s):
 def GiveAway(list):
     p1List = []
     p2List = []
-    whoGets = 0
     for i in range(0, 4):
         choice = secrets.choice(list)
-        if whoGets == 0:
+        if i % 2 == 0:
             p1List.append(choice)
             index = list.index(choice)
             del list[index]
-            whoGets += 1
-        elif whoGets == 1:    
+        elif i % 2 == 1:    
             p2List.append(choice)
             index = list.index(choice)
             del list[index]
-            whoGets = 0
     return p1List, p2List
 
 # ITEMS
@@ -118,7 +115,6 @@ PokemonList = [poke1, poke2, poke3, poke4, poke5, poke6]
 # Player's Pk
 YoursPk, EnemysPk = GiveAway(PokemonList)
  
-
 # Player's n stuff
 strPlayer1 = bcolors.OKRED + 'Ash' + bcolors.ENDC
 Player1 = Player(strPlayer1, 100, YoursPk, Player1Set)
@@ -126,90 +122,105 @@ Player1 = Player(strPlayer1, 100, YoursPk, Player1Set)
 strPlayer2 = bcolors.OKBLUE + 'Gary' + bcolors.ENDC
 Player2 = Player(strPlayer2, 999, EnemysPk, Player2Set)
 
-delayPrint(Player2.name + ' wants to fight!')
+delayPrint(Player2.name + ' wants to fight!' + '\n')
+
+''' GAME STARTS '''
+# Chosing Pk that you want to fight for you
+P1Pokemon= Player1.choosePokemon()
+P2Pokemon = Player2.choosePokemon()
+Pokemon1 = Player1.pokemonQuantity[P1Pokemon]
+Pokemon2 = Player2.pokemonQuantity[P2Pokemon]
 
 #MainLoop
 run = True
 while run:
 
-    ''' PLAYER1'S TURN '''
     # Checking winning conditions
     Player1.Lose(Player2)
+
+    # Checking PoKemon status
+    if Pokemon1.getHp() == 0:
+        print("Choose another Pokemon " + Player1.name + ": ")
+        P1Pokemon = Player1.choosePokemon()
+        Pokemon1 = Player1.pokemonQuantity[P1Pokemon]
+    if Pokemon2.getHp() == 0:
+        print("Choose another Pokemon " + Player2.name + ": ")
+        P2Pokemon = Player2.choosePokemon()
+        Pokemon2 = Player2.pokemonQuantity[P2Pokemon]
+
+    ''' PLAYER1'S TURN '''
     
     # wypisanie statystyk LP
-    print('\n' + bcolors.BOLD + Player1.name +" Pk:" + bcolors.ENDC)
-    for poke in Player1.pokemonQuantity:
-        poke.printHp()
+    print('\n' + bcolors.BOLD + Player1.name +" Pks:" + bcolors.ENDC)
+    Pokemon1.printHp()
+    print('\n' + bcolors.BOLD + Player2.name +" Pks:" + bcolors.ENDC)
+    Pokemon2.printHp()
     print('\n')
 
-    for Pk in Player1.pokemonQuantity:
+    # wybranie akcji
+    choice = Pokemon1.ChooseAction()
         
-        # Checking winning conditions
-        Player1.Lose(Player2)
-
-        # wybranie akcji
-        choice = Pk.ChooseAction()
-        
-        # wypisanie atakow
-        if choice == 1:
-            # Choosing atk
-            atkChoice = Pk.ChooseAttack()
-
-            # Choosing enemy
-            enemy = Pk.chooseTarget(Player2.pokemonQuantity)
-            notEnemy = Player1.pokemonQuantity.index(Pk)
-            PLayer1, Player2 = Player1.PokemonDamageCalculation(Player2, notEnemy, enemy, atkChoice)
+    # wypisanie atakow
+    if choice == 1:
+        atkChoice = Pokemon1.ChooseAttack()
+        Player1, Player2 = Player1.PokemonDamageCalculation(Player2, P1Pokemon, P2Pokemon, atkChoice)
     
-        # ITEMS
-        elif choice == 2:
-            Player1.ItemDamageCalculation(Player2)    
+    # ITEMS
+    elif choice == 2:
+        Player1.ItemDamageCalculation(Player2)    
         
-        # RUN BERRY RUN
-        elif choice == 3:
-            print(bcolors.BOLD + Player1.name + bcolors.BOLD +' escaped' + bcolors.ENDC)
-            exit(0)
+    # RUN BERRY RUN
+    elif choice == 3:
+        print(bcolors.BOLD + Player1.name + bcolors.BOLD +' escaped' + bcolors.ENDC)
+        exit(0)
         
-        # NOPE!!!
-        else:
-            print('There is no option ', choice)
-            break
+    # NOPE!!!
+    else:
+        print('There is no option ', choice)
+        break
     
     ''' PLAYER2's TURN ''' 
+
     # Checking winning conditions
     Player2.Lose(Player1)
 
+    # Checking Player2's PoKemon status 
+    if Pokemon1.getHp() == 0:
+        print("Choose another Pokemon " + Player1.name + ": ")
+        P1Pokemon = Player1.choosePokemon()
+        Pokemon1 = Player1.pokemonQuantity[P1Pokemon]
+    if Pokemon2.getHp() == 0:
+        print("Choose another Pokemon " + Player2.name + ": ")
+        P2Pokemon = Player2.choosePokemon()
+        Pokemon2 = Player2.pokemonQuantity[P2Pokemon]
+    
+
     # wypisanie stanu LP    
-    print('\n' + bcolors.BOLD + Player2.name +" Pk:" + bcolors.ENDC)
-    for Pk in Player2.pokemonQuantity:
-        Pk.printHp()
+    print('\n' + bcolors.BOLD + Player1.name +" Pks:" + bcolors.ENDC)
+    Pokemon1.printHp()
+    print('\n' + bcolors.BOLD + Player2.name +" Pks:" + bcolors.ENDC)
+    Pokemon2.printHp()
+    print('\n')
 
-    for Pk in Player2.pokemonQuantity:
+    #wybor akcji
+    choice = Pokemon2.ChooseAction()
         
-        # Checking winning conditions
-        Player2.Lose(Player1)
+    # wypisanie atakow
+    if choice == 1:
+        atkChoice = Pokemon2.ChooseAttack()
+        Player2, Player1 = Player2.PokemonDamageCalculation(Player1, P2Pokemon, P1Pokemon, atkChoice)
 
-        #wybor akcji
-        choice = Pk.ChooseAction()
+    # ITEMS
+    elif choice == 2:
+        Player2.ItemDamageCalculation(Player1)
         
-        # wypisanie atakow
-        if choice == 1:
-            atkChoice = Pk.ChooseAttack()
-            
-            enemy = Pk.chooseTarget(Player1.pokemonQuantity)
-            notEnemy = Player2.pokemonQuantity.index(Pk)
-            Player2, PLayer1 = Player2.PokemonDamageCalculation(Player1, notEnemy, enemy, atkChoice)
-
-        # ITEMS
-        elif choice == 2:
-            Player2.ItemDamageCalculation(Player1)
+    # WHY WOULD YOU LIKE TO DO THAT?
+    elif choice == 3:
+        print(bcolors.BOLD + Player2.name + bcolors.BOLD + ' ESCAPED' + bcolors.ENDC)
+        exit(0)
         
-        # WHY WOULD YOU LIKE TO DO THAT?
-        elif choice == 3:
-            print(bcolors.BOLD + Player2.name + bcolors.BOLD + ' ESCAPED' + bcolors.ENDC)
-            exit(0)
-        
-        # THERE IS NO ESTER EGG HERE
-        else:
-            print('There is no option ', choice)
-            continue
+    # THERE IS NO ESTER EGG HERE
+    else:
+        print('There is no option ', choice)
+        continue
     

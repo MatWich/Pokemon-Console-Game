@@ -13,6 +13,17 @@ class Player:
     def getPokemonQuantity(self):
         return self.pokemonQuantity
 
+    # UI
+
+    def choosePokemon(self):
+        i = 1
+        print(bcolors.OKGREEN + bcolors.BOLD + "    " + self.name + " Pokemons" + bcolors.ENDC)
+        for Pk in self.pokemonQuantity:
+            print("    " + str(i) + ".", Pk.name + '\n')
+            i += 1
+        choice = int(input('Choose PoKemon: ')) - 1
+        return choice
+
     def chooseItem(self):
         i = 1
         print('\n' + bcolors.OKGREEN + bcolors.BOLD + "ITEMS: " + bcolors.ENDC)
