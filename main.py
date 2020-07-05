@@ -122,9 +122,9 @@ Player1 = Player(strPlayer1, 100, YoursPk, Player1Set)
 strPlayer2 = bcolors.OKBLUE + 'Gary' + bcolors.ENDC
 Player2 = Player(strPlayer2, 999, EnemysPk, Player2Set)
 
+''' GAME STARTS '''
 delayPrint(Player2.name + ' wants to fight!' + '\n')
 
-''' GAME STARTS '''
 # Chosing Pk that you want to fight for you
 P1Pokemon= Player1.choosePokemon()
 P2Pokemon = Player2.choosePokemon()

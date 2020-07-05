@@ -19,7 +19,7 @@ class Player:
         i = 1
         print(bcolors.OKGREEN + bcolors.BOLD + "    " + self.name + " Pokemons" + bcolors.ENDC)
         for Pk in self.pokemonQuantity:
-            print("    " + str(i) + ".", Pk.name + '\n')
+            print("    " + str(i) + ".", Pk.name)
             i += 1
         choice = int(input('Choose PoKemon: ')) - 1
         return choice
