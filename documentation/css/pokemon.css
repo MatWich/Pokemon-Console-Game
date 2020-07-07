@@ -1,0 +1,17 @@
+    body {
+        background-image: url(../images/bg2.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgb(243, 209, 86);
+    }
+
+    .button {
+        border: black;
+        text-align: center;
+        display: -moz-popup;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: cell;
+    }
+    .button1 {border-radius: 100%;}
+
