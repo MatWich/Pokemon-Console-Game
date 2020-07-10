@@ -92,24 +92,67 @@ Scratch = Moves("Scratch", 15, NORMAL, 'damageDeal')
 Tackle = Moves("Tackle", 15, NORMAL, 'damageDeal')
 Recovery = Moves("Recovery", 80, NORMAL, 'HealUp')
 Growl = Moves("Growl", 2, NORMAL, 'ATK_Debuff')
+
+# Move Sets
+hungusSet = [
+    {"move":Scratch, "sp": 2},
+    {"move":Growl, "sp": 10},
+    {"move":Recovery, "sp":20},
+    {"move":RazorLeaf, "sp": 10}
+]
+
+shaggySet = [
+    {"move":LeafPunch, "sp":5},
+    {"move":WaterPunch, "sp":5},
+    {"move":ThunderPunch, "sp":5},
+    {"move":FirePunch, "sp":5}
+]
+
+spongeSet = [
+    {"move":Scratch, "sp":2},
+    {"move":Growl, "sp":10},
+    {"move":waterGun, "sp":10},
+    {"move":HydroPomp, "sp":1}
+]
+
+rickSet = [
+    {"move":ThunderBolt, "sp":2},
+    {"move":Flamethrower, "sp":10},
+    {"move":ThunderPunch, "sp":10},
+    {"move":Recovery, "sp":1}
+]
+
+mortySet = [
+    {"move":VineWhip, "sp":1},
+    {"move":LeafPunch, "sp":5},
+    {"move":RazorLeaf, "sp":10},
+    {"move":Recovery, "sp":1}
+]
+
+shrekuSet = [
+    {"move":Recovery, "sp":2},
+    {"move":DefenceCurl, "sp":10},
+    {"move":HydroPomp, "sp":10},
+    {"move":LeafPunch, "sp":5}
+]
 # Pokemon
 bigHungus = bcolors.OKGREEN + 'Big Hungus' + bcolors.ENDC
-poke2 = Pokemon(bigHungus, GRASS, 22, 8, 10, 2, 10, 3, [Scratch, Growl, Recovery, RazorLeaf])
+poke2 = Pokemon(bigHungus, GRASS, 22, 8, 10, 2, 10, 3, hungusSet)
 
 Shaggy = bcolors.OKGREY + 'Shaggy' + bcolors.ENDC
-poke1 = Pokemon(Shaggy, FIRE, 20, 12, 9, 14, 1, 6, [LeafPunch, WaterPunch, ThunderPunch , FirePunch])
+poke1 = Pokemon(Shaggy, FIRE, 20, 12, 9, 14, 1, 6, shaggySet)
 
 SpongeBob = bcolors.OKYELLOW + 'SpongeBob' + bcolors.ENDC
-poke3 = Pokemon(SpongeBob, ELECTRIC, 20, 5, 13, 15, 1, 4, [Scratch, Growl, waterGun, HydroPomp])
+poke3 = Pokemon(SpongeBob, ELECTRIC, 20, 5, 13, 15, 1, 4, spongeSet)
 
 Shrekku = bcolors.OKGREEN + 'Shrekku' + bcolors.ENDC
-poke4 = Pokemon(Shrekku, GRASS, 23, 1, 12, 15, 3, 5, [Recovery, DefenceCurl, HydroPomp, LeafPunch] )
+poke4 = Pokemon(Shrekku, GRASS, 23, 1, 12, 15, 3, 5, shrekuSet)
 
 Rick = bcolors.OKYELLOW + 'Rick' + bcolors.ENDC
-poke5 = Pokemon(Rick, ELECTRIC, 20, 1, 5, 17, 10, 4, [ThunderBolt, Flamethrower, ThunderPunch, Recovery])
+poke5 = Pokemon(Rick, ELECTRIC, 20, 1, 5, 17, 10, 4, rickSet)
 
 Morty = bcolors.OKBLUE + 'Morty' + bcolors.ENDC
-poke6 = Pokemon(Morty, WATER, 19, 12, 10, 1, 5, 8, [VineWhip, LeafPunch, RazorLeaf, Recovery])
+poke6 = Pokemon(Morty, WATER, 19, 12, 10, 1, 5, 8, mortySet)
 
 PokemonList = [poke1, poke2, poke3, poke4, poke5, poke6]
 

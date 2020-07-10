@@ -60,7 +60,14 @@ class Player:
         Pokemon1 = self.pokemonQuantity[current]    # Zadaje obrazenia
         Pokemon2 = Player.pokemonQuantity[enemy]    # Zbiera bęcki
 
-        move = Pokemon1.moves[atkChoice]            # trzeba w mainie wybrac atak i pozostale rzeczy dalej
+        if Pokemon1.moves[atkChoice]["sp"] == 0:
+            print(bcolors.BLINK + 'No SP left ... ' + bcolors.ENDC)
+            atkChoice = Pokemon1.ChooseAttack()
+            self.PokemonDamageCalculation(Player, current, enemy, atkChoice)
+        else:
+            Pokemon1.moves[atkChoice]["sp"] -= 1
+
+        move = Pokemon1.moves[atkChoice]["move"]    # trzeba w mainie wybrac atak i pozostale rzeczy dalej
 
         # Normal attacks
         if move.purpose == 'damageDeal':
@@ -105,27 +112,27 @@ class Player:
         elif move.purpose == 'ATK_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.AtkBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' attack by' + str(dmg) +'\n')
+            print(move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n')
 
         elif move.purpose == 'DEF_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.DefBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' defence by' + str(dmg) +'\n')
+            print(move.name + ' grows ' + Pokemon1.name + ' defence by ' + str(dmg) +'\n')
 
         elif move.purpose == 'SATK_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SAtkBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' special attack by' + str(dmg) +'\n')
+            print(move.name + ' grows ' + Pokemon1.name + ' special attack by ' + str(dmg) +'\n')
 
         elif move.purpose == 'SDEF_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SDefBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' special defence by' + str(dmg) +'\n')
+            print(move.name + ' grows ' + Pokemon1.name + ' special defence by ' + str(dmg) +'\n')
         
         elif move.purpose == 'SPD_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SpeedBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' attack by' + str(dmg) +'\n')
+            print(move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n')
     
         # Atribute Attacks
         else:

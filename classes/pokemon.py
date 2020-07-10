@@ -55,7 +55,7 @@ class Pokemon:
         i = 1
         print('        Which attack should be choosen?')
         for move in self.moves:
-            print('            '+ str(i) + '.', move.name)
+            print('            '+ str(i) + '.' + move["move"].name + ' ' + str(move["sp"]))
             i += 1
         atkChoice = int(input('Choose atk: ')) - 1
         return atkChoice

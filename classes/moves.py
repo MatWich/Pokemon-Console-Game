@@ -9,6 +9,7 @@ class Moves:
         self.Hdmg = dmg + 10
         self.type = type
         self.purpose = purpose
+        
 
 
     def getDamageValue(self):
