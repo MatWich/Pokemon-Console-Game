@@ -1,4 +1,5 @@
 import sys
+import config
 from classes.colors import bcolors
 from classes.pokemon import Pokemon
 from classes.moves import Moves 
@@ -17,7 +18,7 @@ class Player:
 
     def choosePokemon(self):
         i = 1
-        print(bcolors.OKGREEN + bcolors.BOLD + "    " + self.name + " Pokemons" + bcolors.ENDC)
+        config.delayPrint(bcolors.OKGREEN + bcolors.BOLD + "    " + self.name + " Pokemons" + bcolors.ENDC)
         for Pk in self.pokemonQuantity:
             print("    " + str(i) + ".", Pk.name)
             i += 1
@@ -26,9 +27,9 @@ class Player:
 
     def chooseItem(self):
         i = 1
-        print('\n' + bcolors.OKGREEN + bcolors.BOLD + "ITEMS: " + bcolors.ENDC)
+        config.delayPrint('\n' + bcolors.OKGREEN + bcolors.BOLD + "ITEMS: " + bcolors.ENDC)
         for item in self.items:
-            print("    " + str(i) + ".", item["item"].name, " : ", item["item"].description + " (x" + str(item["quantity"]) + ")")
+            print("    " + str(i) + ".", item["item"].name, " : ", item["item"].description + " (x" + str(item["quantity"]) + ")\n")
             i += 1
         choice = int(input('Choose item: ')) - 1
         return choice
@@ -41,12 +42,12 @@ class Player:
             self.money = 0
 
         Player.money += moneyLost
-        print(Player.name + ' got ' + str(moneyLost) + '$ from ' + self.name)
+        config.delayPrint(Player.name + ' got ' + str(moneyLost) + '$ from ' + self.name)
         return self.money
 
     # End game function
     def endMesssage(self, Player):
-        print(Player.name + ' has won a fight!')
+        config.delayPrint(Player.name + ' has won a fight!')
         sys.exit(0)
 
     # Sprawdza czy jest jeszcze z kim walczyc
@@ -61,7 +62,7 @@ class Player:
         Pokemon2 = Player.pokemonQuantity[enemy]    # Zbiera bęcki
 
         if Pokemon1.moves[atkChoice]["sp"] == 0:
-            print(bcolors.BLINK + 'No SP left ... ' + bcolors.ENDC)
+            config.delayPrint(bcolors.BLINK + 'No SP left ... ' + bcolors.ENDC)
             atkChoice = Pokemon1.ChooseAttack()
             self.PokemonDamageCalculation(Player, current, enemy, atkChoice)
         else:
@@ -74,65 +75,77 @@ class Player:
             dmg = abs(move.getDamageValue())
             damage = Pokemon1.generateDamage(dmg)
             Pokemon2.takeDamageNormal(damage)
-            print(move.name + ' deals ' + str(int(damage - Pokemon2.getDf())) + ' damage to', Pokemon2.name + '\n')
+            text = move.name + ' deals ' + str(int(damage - Pokemon2.getDf())) + ' damage to', Pokemon2.name + '\n'
+            config.delayPrint(text)
         
         # Debuffs
         elif move.purpose == 'ATK_Debuff':
             dmg = abs(move.getDamageValue())
             Pokemon2.getAtkDebuff(dmg)
-            print(move.name + ' decreased attack of '+ Pokemon2.name + ' by ' + str(dmg) + '\n') 
+            text = move.name + ' decreased attack of '+ Pokemon2.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text) 
 
         elif (move.purpose == 'DEF_Debuff'):
             dmg = abs(move.getDamageValue())
             Pokemon2.getDefDebuff(dmg)
-            print(move.name + ' decreased defence of '+ Pokemon2.name + ' by ' + str(dmg) + '\n') 
+            text = move.name + ' decreased defence of '+ Pokemon2.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text) 
 
         elif move.purpose == 'SATK_Debuff':
             dmg = abs(move.getDamageValue())
             Pokemon2.getSAtkDebuff(dmg)
-            print(move.name + ' decreased special attack of '+ Pokemon2.name + ' by ' + str(dmg) + '\n')
+            text = move.name + ' decreased special attack of '+ Pokemon2.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text)
 
         elif move.purpose == 'SDEF_Debuff':
             dmg = abs(move.getDamageValue())
             Pokemon2.getAtkDebuff(dmg)
-            print(move.name + ' decreased special defence of '+ Pokemon2.name + ' by ' + str(dmg) + '\n')  
+            text = move.name + ' decreased special defence of '+ Pokemon2.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text)  
 
         elif move.purpose == 'SPD_Debuff':
             dmg = abs(move.getDamageValue())
             Pokemon2.getSpeedDebuff(dmg)
-            print(move.name + ' decreased speed of '+ Pokemon2.name + ' by ' + str(dmg) + '\n')
+            text = move.name + ' decreased speed of '+ Pokemon2.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text)
 
         # Heal
         elif move.purpose == 'HealUp':
             dmg = abs(move.getDamageValue())
             Pokemon2.getAtkDebuff(dmg)
-            print(move.name + ' heals  '+ Pokemon1.name + ' by ' + str(dmg) + '\n') 
+            text = move.name + ' heals  '+ Pokemon1.name + ' by ' + str(dmg) + '\n'
+            config.delayPrint(text) 
 
         # Buffs
         elif move.purpose == 'ATK_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.AtkBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n')
+            text = move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n'
+            config.delayPrint(text)
 
         elif move.purpose == 'DEF_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.DefBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' defence by ' + str(dmg) +'\n')
+            text = move.name + ' grows ' + Pokemon1.name + ' defence by ' + str(dmg) +'\n'
+            config.delayPrint(text)
 
         elif move.purpose == 'SATK_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SAtkBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' special attack by ' + str(dmg) +'\n')
+            text = move.name + ' grows ' + Pokemon1.name + ' special attack by ' + str(dmg) +'\n'
+            config.delayPrint(text)
 
         elif move.purpose == 'SDEF_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SDefBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' special defence by ' + str(dmg) +'\n')
+            text = move.name + ' grows ' + Pokemon1.name + ' special defence by ' + str(dmg) +'\n'
+            config.delayPrint(text)
         
         elif move.purpose == 'SPD_Buff':
             dmg = abs(move.generateBuffDamage())
             Pokemon1.SpeedBuff(dmg)
-            print(move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n')
+            text = move.name + ' grows ' + Pokemon1.name + ' attack by ' + str(dmg) +'\n'
+            config.delayPrint(text)
     
         # Atribute Attacks
         else:
@@ -142,11 +155,13 @@ class Player:
             Pokemon2.takeDamageSpecial(damage, advantage)
             # Wypisanie issue with proper number
             if advantage == True:
-                print(move.name + ' deals ' + str(int(2.5 * damage - Pokemon2.getSDf())) + ' to ' + Pokemon2.name + '\n')
-                print('It was super effective!' + '\n')
+                text = move.name + ' deals ' + str(int(2.5 * damage - Pokemon2.getSDf())) + ' to ' + Pokemon2.name + '\n'
+                config.delayPrint(text)
+                config.delayPrint('It was super effective!' + '\n')
             else:
-                print(move.name + ' deals' + str(int(damage - Pokemon2.getSDf())) + ' to ' + Pokemon2.name + '\n')
-                print('It was not very effective...')
+                text = move.name + ' deals' + str(int(damage - Pokemon2.getSDf())) + ' to ' + Pokemon2.name + '\n'
+                config.delayPrint(text)
+                config.delayPrint('It was not very effective...')
     
         # Remove fainted Pokemon
         if Pokemon2.Fainted() ==  True:
@@ -175,7 +190,8 @@ class Player:
                 i += 1
             pkChoice = int(input('Choose PoKemon to heal!')) - 1
             self.pokemonQuantity[pkChoice].heal(item.prop)
-            print(bcolors.OKGREEN + item.name + ' heals for ' + str(item.prop) + ' Hp ' + self.pokemonQuantity[pkChoice].name + bcolors.ENDC)
+            text = bcolors.OKGREEN + item.name + ' heals for ' + str(item.prop) + ' Hp ' + self.pokemonQuantity[pkChoice].name + bcolors.ENDC
+            config.delayPrint(text)
         
         elif item.type == "weapon":
             i = 1
@@ -185,7 +201,8 @@ class Player:
                 i += 1
             pkChoice = int(input('Choose Pokemon to deal damage to it!')) - 1
             Player.pokemonQuantity[pkChoice].takeDamageNormal(item.prop)
-            print(bcolors.OKRED + item.name + ' deals ' + str(item.prop) + ' damage to ' + Player.pokemonQuantity[pkChoice].name + bcolors.ENDC)
+            text = bcolors.OKRED + item.name + ' deals ' + str(item.prop) + ' damage to ' + Player.pokemonQuantity[pkChoice].name + bcolors.ENDC
+            config.delayPrint(text)
         
         # Remove fainted Pokemon
         for pk in Player.pokemonQuantity:

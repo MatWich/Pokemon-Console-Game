@@ -1,3 +1,4 @@
+import config
 from classes.colors import bcolors, WATER, FIRE, ELECTRIC, GRASS, ROCK, NORMAL
 from classes.moves import Moves
 
@@ -194,7 +195,7 @@ class Pokemon:
 
     def Fainted(self):
         if self.getHp() == 0:
-            print(self.name.replace(" ", "") + ' has fainted')
+            config.delayPrint(self.name.replace(" ", "") + ' has fainted')
             return True
         else:
             return False
